@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Recondo Design - A premium, high-end motion design studio specializing in cinematic visual assets and modern animations. Launching soon.">
+  <meta name="theme-color" content="#08080a">
+  <title>Recondo Design | Motion Design Studio</title>
+  
+  <!-- Preconnect to Google Fonts for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <!-- Ambient backdrop glows -->
+  <div class="ambient-container" aria-hidden="true">
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+  </div>
+
+  <!-- Analog style film grain texture overlay -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- Core content wrapper -->
+  <main class="content-wrapper">
+    <header>
+      <h1 class="studio-title" id="main-title">Recondo Design</h1>
+    </header>
+    <p class="studio-status" id="launch-status">Motion Design Studio - Launching Soon</p>
+  </main>
+
+  <!-- Interactive script for dynamic glow tracking & trigger loaded state -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Create and inject the interactive cursor follower element
+      const cursorFollower = document.createElement('div');
+      cursorFollower.classList.add('cursor-follower');
+      cursorFollower.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(cursorFollower);
+
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let followerX = mouseX;
+      let followerY = mouseY;
+      let isMoving = false;
+
+      // Track mouse movements to update target coords
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        isMoving = true;
+      });
+
+      // Smooth frame-rate independent position interpolation (lerp)
+      function updateGlowPosition() {
+        if (isMoving) {
+          followerX += (mouseX - followerX) * 0.08;
+          followerY += (mouseY - followerY) * 0.08;
+          cursorFollower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0) translate(-50%, -50%)`;
+        }
+        requestAnimationFrame(updateGlowPosition);
+      }
+      
+      updateGlowPosition();
+
+      // Trigger entrance animations in CSS once page has loaded
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          document.body.classList.add('loaded');
+        }, 100);
+      });
+    });
+  </script>
+</body>
+</html>
